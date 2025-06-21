@@ -26,7 +26,7 @@ function Navbar() {
 
   return (
     <nav className="fixed top-0 z-50 h-15 w-full flex justify-between items-center px-4 md:px-6 lg:px-8 bg-white shadow-sm">
-      <h1 className="text-xl">Brand</h1>
+      <h1 className="text-xl font-semibold">Brand</h1>
       <ul className="hidden md:flex gap-4 lg:gap-6">
         {items.map((item) => (
           <li key={item.href} className="group relative">

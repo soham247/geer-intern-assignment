@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button";
 
 interface QuantityControlProps {
     quantity: number;
-    onIncrease: () => void;
-    onDecrease: () => void;
+    onIncrease: (e?: React.MouseEvent) => void;
+    onDecrease: (e?: React.MouseEvent) => void;
     disabled?: boolean;
     size?: "sm" | "md" | "lg";
     className?: string;
+    minQuantity?: number;
+    maxQuantity?: number;
 }
 
 function QuantityControl({ 
@@ -17,7 +19,9 @@ function QuantityControl({
     onDecrease, 
     disabled = false,
     size = "md",
-    className = ""
+    className = "",
+    minQuantity = 1,
+    maxQuantity
 }: QuantityControlProps) {
     const sizeClasses = {
         sm: "h-8 w-8",
@@ -31,26 +35,42 @@ function QuantityControl({
         lg: "text-lg px-5"
     };
 
+    const handleDecrease = (e?: React.MouseEvent) => {
+        if (e) {
+            e.stopPropagation();
+        }
+        onDecrease(e);
+    };
+
+    const handleIncrease = (e?: React.MouseEvent) => {
+        if (e) {
+            e.stopPropagation();
+        }
+        onIncrease(e);
+    };
+
     return (
-        <div className={`flex items-center border border-border rounded-md ${className}`}>
+        <div className={`flex items-center border border-border rounded-md bg-background ${className}`}>
             <Button
                 variant="ghost"
                 size="sm"
-                onClick={onDecrease}
-                disabled={disabled || quantity <= 1}
-                className={`${sizeClasses[size]} p-0 hover:bg-muted`}
+                onClick={handleDecrease}
+                disabled={disabled || quantity <= minQuantity}
+                className={`${sizeClasses[size]} p-0 hover:bg-muted rounded-r-none border-r border-border`}
+                aria-label="Decrease quantity"
             >
                 <Minus className="w-4 h-4" />
             </Button>
-            <span className={`${textSizeClasses[size]} py-2 font-semibold min-w-[3rem] text-center text-foreground`}>
+            <div className={`${textSizeClasses[size]} py-2 font-semibold min-w-[3rem] text-center text-foreground bg-background border-x-0`}>
                 {quantity}
-            </span>
+            </div>
             <Button
                 variant="ghost"
                 size="sm"
-                onClick={onIncrease}
-                disabled={disabled}
-                className={`${sizeClasses[size]} p-0 hover:bg-muted`}
+                onClick={handleIncrease}
+                disabled={disabled || (maxQuantity ? quantity >= maxQuantity : false)}
+                className={`${sizeClasses[size]} p-0 hover:bg-muted rounded-l-none border-l border-border`}
+                aria-label="Increase quantity"
             >
                 <Plus className="w-4 h-4" />
             </Button>

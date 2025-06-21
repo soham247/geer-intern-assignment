@@ -139,7 +139,7 @@ function ProductPage() {
                         <h1 className="text-3xl font-bold text-gray-900 leading-tight">
                             {data.name}
                         </h1>
-                        <p className="text-3xl font-bold text-gray-900">
+                        <p className="text-3xl font-bold font-mono text-gray-900">
                             ₹{data.price.toLocaleString()}
                         </p>
                     </div>

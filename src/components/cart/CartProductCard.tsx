@@ -15,7 +15,7 @@ interface CartProductCardProps {
 
 function CartProductCard({ product, slug, quantity }: CartProductCardProps) {
     const { updateQuantity, removeItem } = useCart();
-    const router = useRouter()
+    const router = useRouter();
 
     const handleDecrease = () => {
         if (quantity > 1) {
@@ -27,14 +27,15 @@ function CartProductCard({ product, slug, quantity }: CartProductCardProps) {
         updateQuantity(slug, quantity + 1);
     };
 
-    const handleRemove = () => {
+    const handleRemove = (e: React.MouseEvent) => {
+        e.stopPropagation();
         removeItem(slug);
     };
 
     const subtotal = product?.price ? product.price * quantity : 0;
 
     return (
-        <Card className="bg-white border border-border" onClick={() => router.push(`/products/${slug}`)}>
+        <Card className="bg-white border border-border cursor-pointer" onClick={() => router.push(`/products/${slug}`)}>
             <CardContent className="p-4">
                 {/* Mobile Layout (< md) */}
                 <div className="md:hidden">
@@ -59,7 +60,7 @@ function CartProductCard({ product, slug, quantity }: CartProductCardProps) {
                             <h3 className="font-semibold text-foreground text-base leading-tight">
                                 {product?.name || 'Loading...'}
                             </h3>
-                            <p className="text-lg font-bold text-foreground mt-1">
+                            <p className="text-lg font-bold text-foreground mt-1 font-mono">
                                 ₹{product?.price?.toFixed(2) || '0.00'}
                             </p>
                         </div>
@@ -78,7 +79,7 @@ function CartProductCard({ product, slug, quantity }: CartProductCardProps) {
 
                     {/* Quantity and Subtotal Row */}
                     <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
                             <span className="text-sm text-muted-foreground">Qty:</span>
                             <QuantityControl
                                 quantity={quantity}
@@ -118,13 +119,13 @@ function CartProductCard({ product, slug, quantity }: CartProductCardProps) {
                         <h3 className="font-semibold text-foreground text-lg truncate">
                             {product?.name || 'Loading...'}
                         </h3>
-                        <p className="text-lg font-bold text-foreground mt-2">
+                        <p className="text-lg font-bold text-foreground mt-2 font-mono">
                             ₹{product?.price?.toFixed(2) || '0.00'}
                         </p>
                     </div>
 
                     {/* Quantity Controls */}
-                    <div className="flex items-center gap-3 flex-shrink-0">
+                    <div className="flex items-center gap-3 flex-shrink-0" onClick={(e) => e.stopPropagation()}>
                         <QuantityControl
                             quantity={quantity}
                             onIncrease={handleIncrease}

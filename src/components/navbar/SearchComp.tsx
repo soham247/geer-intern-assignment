@@ -143,7 +143,7 @@ function SearchComp() {
                 </p>
               </div>
 
-              <div className="flex-1 overflow-y-auto min-h-0 p-4">
+              <div className="flex-1 overflow-y-auto scrollbar-hide min-h-0 p-4">
                 {status === "pending" && (
                   <div className="grid grid-cols-2 gap-3">
                     {[...Array(6)].map((_, i) => (
